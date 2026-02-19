@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>شکرگزاری</title>
+    <style>
+        body { margin: 0; padding: 0; background: #0f172a; color: white; font-family: sans-serif; direction: rtl; }
+        .app { padding: 15px; max-width: 500px; margin: auto; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 15px; margin-bottom: 20px; }
+        .card { background: #1e293b; border-radius: 20px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); }
+        h1 { font-size: 1.2rem; color: #38bdf8; text-align: center; margin-top: 0; }
+        .date-box { background: #0f172a; padding: 10px; border-radius: 12px; text-align: center; margin-bottom: 20px; border: 1px solid #334155; }
+        input[type="date"] { background: transparent; border: none; color: white; font-size: 1rem; outline: none; width: 100%; }
+        .q-item { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: #94a3b8; }
+        textarea { width: 100%; background: #0f172a; border: 1px solid #334155; border-radius: 10px; padding: 12px; color: white; height: 70px; resize: none; box-sizing: border-box; }
+        .btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        button { padding: 12px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; }
+        .save { background: #0ea5e9; color: white; }
+        .reset { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <header>
+            <span>✨ دفترچه من</span>
+            <button onclick="toggleArchive()" style="background:#38bdf8; color:#0f172a; padding:5px 10px; border-radius:8px">آرشیو</button>
+        </header>
+        <div class="card">
+            <h1>شکرگزاری و ارزیابی</h1>
+            <div class="date-box"><input type="date" id="dInp" onchange="load()"></div>
+            <div class="q-item"><label>۱. به‌خاطر چه چیزی سپاسگزارم؟</label><textarea id="q1"></textarea></div>
+            <div class="q-item"><label>۲. به‌خاطر چه کسی سپاسگزارم؟</label><textarea id="q2"></textarea></div>
+            <div class="q-item"><label>۳. هدف اصلی امسال و قدم امروز؟</label><textarea id="q3"></textarea></div>
+            <div class="q-item"><label>۴. اتفاقات دلخواه امروز؟</label><textarea id="q4"></textarea></div>
+            <div class="q-item"><label>۵. ۳ کار مهم امروز؟</label><textarea id="q5"></textarea></div>
+            <div class="q-item"><label>۶. درخواست از خدا؟</label><textarea id="q6"></textarea></div>
+            <div class="btns">
+                <button class="save" onclick="save()">ذخیره</button>
+                <button class="reset" onclick="res()">ریست</button>
+            </div>
+        </div>
+    </div>
+    <div id="modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); padding:20px; z-index:100;">
+        <div style="background:#1e293b; padding:20px; border-radius:20px; max-height:80vh; overflow-y:auto;">
+            <h3 style="text-align:center">تاریخچه</h3>
+            <div id="list"></div>
+            <button onclick="toggleArchive()" class="reset" style="width:100%; margin-top:20px">بستن</button>
+        </div>
+    </div>
+    <script>
+        const d = document.getElementById('dInp');
+        d.valueAsDate = new Date();
+        function save() {
+            let data = {};
+            for(let i=1; i<=6; i++) data['q'+i] = document.getElementById('q'+i).value;
+            localStorage.setItem('g_'+d.value, JSON.stringify(data));
+            alert("ذخیره شد!");
+        }
+        function load() {
+            let s = localStorage.getItem('g_'+d.value);
+            for(let i=1; i<=6; i++) document.getElementById('q'+i).value = s ? JSON.parse(s)['q'+i] : '';
+        }
+        function res() { if(confirm("پاک شود؟")) for(let i=1; i<=6; i++) document.getElementById('q'+i).value = ''; }
+        function toggleArchive() {
+            const m = document.getElementById('modal');
+            m.style.display = m.style.display === 'none' ? 'block' : 'none';
+            if(m.style.display === 'block') {
+                const l = document.getElementById('list'); l.innerHTML = '';
+                Object.keys(localStorage).forEach(k => {
+                    if(k.startsWith('g_')) {
+                        let date = k.replace('g_', '');
+                        l.innerHTML += `<div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #334155;">
+                            <span>🗓️ ${date}</span>
+                            <button onclick="view('${date}')" style="background:#38bdf8; border:none; border-radius:5px; padding:3px 8px">باز کردن</button>
+                        </div>`;
+                    }
+                });
+            }
+        }
+        function view(date) { d.value = date; load(); toggleArchive(); }
+        load();
+    </script>
+</body>
+</html>
