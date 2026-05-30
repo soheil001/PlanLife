@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ثبت آگهی - اجاره بازار</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Vazirmatn', 'Tahoma', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: #222;
+            padding-bottom: 40px;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 20px 16px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 900;
+            color: white;
+            background: linear-gradient(90deg, #ffffff, #a0ffcc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .page-title {
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .form-card {
+            padding: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-label {
+            display: block;
+            color: white;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 14px;
+            color: white;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-select {
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .category-option {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 16px;
+            padding: 16px 8px;
+            text-align: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .category-option.active {
+            border-color: #a0ffcc;
+            background: rgba(160, 255, 204, 0.2);
+        }
+
+        .category-option i {
+            font-size: 28px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .photo-upload {
+            border: 2px dashed rgba(255,255,255,0.4);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .photo-upload:hover {
+            border-color: #a0ffcc;
+        }
+
+        .photo-upload i {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .photo-preview {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .photo-preview img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 18px;
+            background: #00b140;
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 6px 20px rgba(0, 177, 64, 0.4);
+        }
+
+        .success-message {
+            background: rgba(0, 177, 64, 0.2);
+            color: #a0ffcc;
+            padding: 16px;
+            border-radius: 14px;
+            text-align: center;
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">اجاره بازار</div>
+            <div class="page-title">ثبت آگهی جدید</div>
+        </div>
+
+        <div class="form-card glass">
+            
+            <!-- انتخاب دسته‌بندی -->
+            <div class="form-group">
+                <label class="form-label">دسته‌بندی آگهی</label>
+                <div class="category-grid">
+                    <div class="category-option" data-category="املاک" onclick="selectCategory(this)">
+                        <i class="fas fa-home"></i>
+                        <div>املاک</div>
+                    </div>
+                    <div class="category-option" data-category="خودرو" onclick="selectCategory(this)">
+                        <i class="fas fa-car"></i>
+                        <div>خودرو</div>
+                    </div>
+                    <div class="category-option" data-category="موبایل" onclick="selectCategory(this)">
+                        <i class="fas fa-mobile-alt"></i>
+                        <div>موبایل</div>
+                    </div>
+                    <div class="category-option" data-category="خانه" onclick="selectCategory(this)">
+                        <i class="fas fa-chair"></i>
+                        <div>خانه و آشپزخانه</div>
+                    </div>
+                    <div class="category-option" data-category="استخدام" onclick="selectCategory(this)">
+                        <i class="fas fa-briefcase"></i>
+                        <div>استخدام</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- عنوان آگهی -->
+            <div class="form-group">
+                <label class="form-label">عنوان آگهی</label>
+                <input type="text" class="form-input" id="title" placeholder="مثال: آپارتمان ۱۲۰ متری در جنت‌آباد">
+            </div>
+
+            <!-- قیمت -->
+            <div class="form-group">
+                <label class="form-label">قیمت (تومان)</label>
+                <input type="text" class="form-input" id="price" placeholder="مثال: ۴۵۰۰۰۰۰۰۰">
+            </div>
+
+            <!-- توضیحات -->
+            <div class="form-group">
+                <label class="form-label">توضیحات آگهی</label>
+                <textarea class="form-textarea" id="description" placeholder="توضیحات کامل آگهی را بنویسید..."></textarea>
+            </div>
+
+            <!-- مکان -->
+            <div class="form-group">
+                <label class="form-label">مکان</label>
+                <input type="text" class="form-input" id="location" placeholder="تهران، جنت‌آباد">
+            </div>
+
+            <!-- مشخصات کلی (بسته به دسته‌بندی) -->
+            <div class="form-group" id="specs-section">
+                <label class="form-label">مشخصات کلی</label>
+                <div id="specs-container">
+                    <!-- فیلدهای پویا با جاوااسکریپت اضافه می‌شود -->
+                </div>
+            </div>
+
+            <!-- آپلود عکس -->
+            <div class="form-group">
+                <label class="form-label">عکس‌های آگهی (حداکثر ۵ عکس)</label>
+                <div class="photo-upload" onclick="document.getElementById('photo-input').click()">
+                    <i class="fas fa-camera"></i>
+                    <div>کلیک کنید و عکس انتخاب کنید</div>
+                </div>
+                <input type="file" id="photo-input" multiple accept="image/*" style="display: none;" onchange="previewPhotos(this)">
+                <div class="photo-preview" id="photo-preview"></div>
+            </div>
+
+            <!-- دکمه ثبت -->
+            <button class="btn-submit" onclick="submitAd()">
+                <i class="fas fa-check"></i> ثبت آگهی
+            </button>
+
+            <div class="success-message" id="success-message">
+                <i class="fas fa-check-circle"></i> آگهی شما با موفقیت ثبت شد!
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        let selectedCategory = '';
+        let selectedPhotos = [];
+
+        function selectCategory(element) {
+            // حذف انتخاب قبلی
+            document.querySelectorAll('.category-option').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            
+            selectedCategory = element.dataset.category;
+            
+            // نمایش فیلدهای مشخصات مناسب
+            showSpecsForCategory(selectedCategory);
+        }
+
+        function showSpecsForCategory(category) {
+            const container = document.getElementById('specs-container');
+            container.innerHTML = '';
+
+            let html = '';
+
+            switch(category) {
+                case 'املاک':
+                    html = `
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                            <input type="text" class="form-input" placeholder="متراژ (متر)">
+                            <input type="text" class="form-input" placeholder="تعداد اتاق">
+                            <input type="text" class="form-input" placeholder="طبقه">
+                            <input type="text" class="form-input" placeholder="سال ساخت">
+                        </div>
+                    `;
+                    break;
+                case 'خودرو':
+                    html = `
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                            <input type="text" class="form-input" placeholder="مدل و سال">
+                            <input type="text" class="form-input" placeholder="کارکرد (کیلومتر)">
+                            <input type="text" class="form-input" placeholder="رنگ">
+                            <input type="text" class="form-input" placeholder="وضعیت بدنه">
+                        </div>
+                    `;
+                    break;
+                case 'موبایل':
+                    html = `
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                            <input type="text" class="form-input" placeholder="مدل گوشی">
+                            <input type="text" class="form-input" placeholder="حافظه داخلی">
+                            <input type="text" class="form-input" placeholder="وضعیت باتری">
+                            <input type="text" class="form-input" placeholder="رنگ">
+                        </div>
+                    `;
+                    break;
+                default:
+                    html = `<input type="text" class="form-input" placeholder="مشخصات کلی (اختیاری)">`;
+            }
+
+            container.innerHTML = html;
+        }
+
+        function previewPhotos(input) {
+            const preview = document.getElementById('photo-preview');
+            preview.innerHTML = '';
+            selectedPhotos = [];
+
+            Array.from(input.files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    preview.appendChild(img);
+                    selectedPhotos.push(file);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function submitAd() {
+            const title = document.getElementById('title').value;
+            const price = document.getElementById('price').value;
+            const description = document.getElementById('description').value;
+            const location = document.getElementById('location').value;
+
+            if (!title || !price || !selectedCategory) {
+                alert('لطفاً عنوان، قیمت و دسته‌بندی را پر کنید!');
+                return;
+            }
+
+            // شبیه‌سازی ثبت آگهی
+            const successMsg = document.getElementById('success-message');
+            successMsg.style.display = 'block';
+
+            // پاک کردن فرم بعد از ۲ ثانیه
+            setTimeout(() => {
+                document.querySelectorAll('.form-input, .form-textarea').forEach(el => el.value = '');
+                document.getElementById('photo-preview').innerHTML = '';
+                document.querySelectorAll('.category-option').forEach(el => el.classList.remove('active'));
+                document.getElementById('specs-container').innerHTML = '';
+                successMsg.style.display = 'none';
+                
+                // بازگشت به صفحه اصلی (اختیاری)
+                // window.location.href = 'index.html';
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
