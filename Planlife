@@ -10,428 +10,343 @@
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: 'Vazirmatn', 'Tahoma', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            background-attachment: fixed;
-            min-height: 100vh;
-            color: #222;
-        }
-
-        .glass {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-        }
-
+        body { font-family: 'Vazirmatn', 'Tahoma', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); background-attachment: fixed; min-height: 100vh; color: #222; }
+        .glass { background: rgba(255,255,255,0.15); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
         .page { display: none; }
         .page.active { display: block; }
-
-        .header {
-            background: rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(16px);
-            padding: 14px 16px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .logo {
-            font-size: 32px;
-            font-weight: 900;
-            color: white;
-            text-align: center;
-            text-shadow: 0 3px 15px rgba(0,0,0,0.3);
-            background: linear-gradient(90deg, #ffffff, #a0ffcc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .search-area {
-            display: flex;
-            gap: 10px;
-            margin-top: 8px;
-        }
-
-        .location, .search-bar {
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 16px;
-            color: white;
-        }
-
-        .location { padding: 12px 16px; display: flex; align-items: center; gap: 8px; font-size: 15px; }
-        .search-bar { flex: 1; padding: 14px 18px; font-size: 16px; }
-
-        .categories {
-            padding: 16px 16px 8px;
-            overflow-x: auto;
-            white-space: nowrap;
-        }
-
-        .category-item {
-            display: inline-flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            margin-left: 14px;
-            color: white;
-            width: 70px;
-        }
-
-        .category-icon {
-            width: 58px;
-            height: 58px;
-            background: rgba(255, 255, 255, 0.25);
-            border-radius: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            margin-bottom: 8px;
-        }
-
-        .ads-list {
-            padding: 0 16px 80px;
-        }
-
-        .ad-item {
-            background: rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(18px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 22px;
-            margin-bottom: 18px;
-            overflow: hidden;
-            display: flex;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .ad-item:hover { transform: translateY(-6px); }
-
-        .ad-image {
-            width: 145px;
-            height: 145px;
-            background-size: cover;
-            background-position: center;
-        }
-
-        .ad-content {
-            flex: 1;
-            padding: 16px;
-            color: white;
-        }
-
-        .ad-title {
-            font-size: 17px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .ad-price {
-            font-size: 18px;
-            font-weight: 800;
-            color: #a0ffcc;
-        }
-
-        .detail-header {
-            background: rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(16px);
-            padding: 12px 16px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .slider-container {
-            position: relative;
-            margin: 12px;
-        }
-
-        .slider {
-            display: flex;
-            transition: transform 0.5s ease;
-        }
-
-        .slide {
-            min-width: 100%;
-            height: 340px;
-            background-size: cover;
-            background-position: center;
-            border-radius: 24px;
-        }
-
-        .slider-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0,0,0,0.5);
-            color: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 10;
-        }
-
-        .prev { left: 20px; }
-        .next { right: 20px; }
-
-        .detail-content {
-            padding: 0 16px 100px;
-        }
-
-        .ad-title-detail {
-            font-size: 22px;
-            font-weight: 800;
-            color: white;
-            margin: 16px 0 8px;
-        }
-
-        .ad-price-detail {
-            font-size: 26px;
-            font-weight: 900;
-            color: #a0ffcc;
-        }
-
-        .section {
-            background: rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(16px);
-            border-radius: 18px;
-            padding: 18px;
-            margin-bottom: 20px;
-            color: white;
-        }
-
-        .section-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 14px;
-            border-bottom: 2px solid rgba(255,255,255,0.3);
-            padding-bottom: 10px;
-        }
-
-        .spec-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.15);
-        }
-
-        .action-buttons {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 16px;
-            background: rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(20px);
-            z-index: 1000;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 16px;
-            border-radius: 16px;
-            text-align: center;
-            font-weight: 700;
-            font-size: 17px;
-            background: #00b140;
-            color: white;
-        }
-
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(255, 255, 255, 0.25);
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0 6px;
-            z-index: 1000;
-        }
+        .header { background: rgba(255,255,255,0.18); backdrop-filter: blur(16px); padding: 14px 16px; position: sticky; top: 0; z-index: 100; }
+        .logo { font-size: 32px; font-weight: 900; color: white; background: linear-gradient(90deg, #ffffff, #a0ffcc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .ads-list { padding: 0 16px 80px; }
+        .ad-item { background: rgba(255,255,255,0.18); backdrop-filter: blur(18px); border: 1px solid rgba(255,255,255,0.25); border-radius: 22px; margin-bottom: 18px; overflow: hidden; display: flex; box-shadow: 0 10px 30px rgba(0,0,0,0.2); cursor: pointer; }
+        .ad-image { width: 145px; height: 145px; background-size: cover; background-position: center; }
+        .ad-content { flex: 1; padding: 16px; color: white; }
+        .ad-title { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+        .ad-price { font-size: 18px; font-weight: 800; color: #a0ffcc; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.15); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.25); display: flex; justify-content: space-around; padding: 10px 0 6px; z-index: 1000; }
+        .nav-item { text-align: center; color: rgba(255,255,255,0.85); font-size: 12px; }
+        .nav-item.active { color: #a0ffcc; }
+        .nav-item i { font-size: 26px; display: block; margin-bottom: 4px; }
+        .form-card { padding: 24px; max-width: 720px; margin: 0 auto; }
+        .form-group { margin-bottom: 20px; }
+        .form-label { color: white; font-weight: 600; margin-bottom: 8px; display: block; font-size: 15px; }
+        .form-input, .form-textarea { width: 100%; padding: 14px 16px; background: rgba(255,255,255,0.25); border: 1px solid rgba(255,255,255,0.3); border-radius: 14px; color: white; font-size: 16px; }
+        .form-textarea { min-height: 100px; resize: vertical; }
+        .category-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(85px, 1fr)); gap: 10px; }
+        .category-option { background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.3); border-radius: 14px; padding: 14px 6px; text-align: center; color: white; cursor: pointer; }
+        .category-option.active { border-color: #a0ffcc; background: rgba(160,255,204,0.2); }
+        .category-option i { font-size: 26px; margin-bottom: 6px; display: block; }
+        .photo-upload { border: 2px dashed rgba(255,255,255,0.4); border-radius: 16px; padding: 25px; text-align: center; color: white; cursor: pointer; }
+        .photo-preview { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+        .photo-preview img { width: 75px; height: 75px; object-fit: cover; border-radius: 12px; border: 2px solid rgba(255,255,255,0.3); }
+        .btn-submit { width: 100%; padding: 18px; background: #00b140; color: white; border: none; border-radius: 16px; font-size: 18px; font-weight: 700; margin-top: 15px; box-shadow: 0 6px 20px rgba(0,177,64,0.4); }
+        .success-message { background: rgba(0,177,64,0.2); color: #a0ffcc; padding: 16px; border-radius: 14px; text-align: center; margin-top: 15px; display: none; }
     </style>
 </head>
 <body>
 
-    <!-- صفحه اصلی -->
+    <!-- ==================== صفحه اصلی ==================== -->
     <div id="home-page" class="page active">
-
         <div class="header glass">
             <div class="logo">اجاره بازار</div>
-            <div class="search-area">
-                <div class="location glass">
-                    <i class="fas fa-map-marker-alt"></i>
-                    تهران
+            <div style="display:flex; gap:10px; margin-top:8px;">
+                <div class="glass" style="padding:10px 14px; border-radius:14px; color:white; display:flex; align-items:center; gap:6px;">
+                    <i class="fas fa-map-marker-alt"></i> تهران
                 </div>
-                <input type="text" class="search-bar" placeholder="جستجو در همه آگهی‌ها...">
+                <input type="text" class="glass" style="flex:1; padding:12px 16px; border-radius:14px; color:white; border:none;" placeholder="جستجو...">
             </div>
         </div>
 
-        <div class="categories">
-            <div class="category-item"><div class="category-icon">🏠</div><div>املاک</div></div>
-            <div class="category-item"><div class="category-icon">🚗</div><div>خودرو</div></div>
-            <div class="category-item"><div class="category-icon">📱</div><div>موبایل</div></div>
-            <div class="category-item"><div class="category-icon">🛋️</div><div>خانه</div></div>
-            <div class="category-item"><div class="category-icon">👕</div><div>پوشاک</div></div>
-            <div class="category-item"><div class="category-icon">💼</div><div>استخدام</div></div>
-        </div>
-
-        <div class="ads-list">
-            <div class="ad-item glass" onclick="showDetail(0)">
-                <div class="ad-image" style="background-image: url('https://picsum.photos/id/133/600/600')"></div>
-                <div class="ad-content">
-                    <div class="ad-title">واحد ۱۶۰ متری ۳ خواب کلید نخورده</div>
-                    <div class="ad-price">۵۵۰٬۰۰۰٬۰۰۰٬۰۰۰ تومان</div>
-                    <div style="font-size:13px; opacity:0.8;">شهرآرا • ۲ روز پیش</div>
-                </div>
-            </div>
-
-            <div class="ad-item glass" onclick="showDetail(1)">
-                <div class="ad-image" style="background-image: url('https://picsum.photos/id/1015/600/600')"></div>
-                <div class="ad-content">
-                    <div class="ad-title">آپارتمان ۹۰ متری در جنت‌آباد</div>
-                    <div class="ad-price">۲٬۸۰۰٬۰۰۰٬۰۰۰ تومان</div>
-                    <div style="font-size:13px; opacity:0.8;">جنت‌آباد • امروز</div>
-                </div>
-            </div>
-
-            <div class="ad-item glass" onclick="showDetail(2)">
-                <div class="ad-image" style="background-image: url('https://picsum.photos/id/870/600/600')"></div>
-                <div class="ad-content">
-                    <div class="ad-title">جویمکس ناردونی ۱۴۰۴</div>
-                    <div class="ad-price">۱٬۰۰۰٬۰۰۰٬۰۰۰ تومان</div>
-                    <div style="font-size:13px; opacity:0.8;">تهرانسر • ۵ ساعت پیش</div>
-                </div>
-            </div>
+        <div class="ads-list" id="ads-list">
+            <!-- آگهی‌ها اینجا نمایش داده می‌شوند -->
         </div>
     </div>
 
-    <!-- صفحه جزئیات -->
+    <!-- ==================== صفحه جزئیات ==================== -->
     <div id="detail-page" class="page">
-        <div class="detail-header glass">
+        <div class="header glass" style="display:flex; align-items:center; gap:12px;">
             <div onclick="hideDetail()" style="font-size:28px; color:white; cursor:pointer;">←</div>
-            <div class="logo" style="font-size:24px; margin:0;">اجاره بازار</div>
+            <div class="logo" style="font-size:24px;">اجاره بازار</div>
         </div>
         <div id="detail-content"></div>
     </div>
 
-    <!-- نوار پایین - دکمه ثبت آگهی لینک شده -->
-    <div class="bottom-nav glass">
-        <div class="nav-item active"><i class="fas fa-home"></i><div>آگهی‌ها</div></div>
-        
-        <!-- این دکمه به صفحه ثبت آگهی لینک شده -->
-        <div class="nav-item" onclick="window.open('https://htmlpreview.github.io/?https://raw.githubusercontent.com/soheil001/PlanLife/main/sabt_agahi', '_blank')">
-            <i class="fas fa-plus-circle"></i>
-            <div>ثبت آگهی</div>
+    <!-- ==================== صفحه ثبت آگهی ==================== -->
+    <div id="post-page" class="page">
+        <div class="header glass">
+            <div onclick="showPage('home-page')" style="font-size:24px; color:white; cursor:pointer; margin-bottom:10px;">←</div>
+            <div class="logo">اجاره بازار</div>
+            <div style="color:white; font-size:20px; text-align:center; margin-top:8px;">ثبت آگهی اجاره</div>
         </div>
-        
+
+        <div class="form-card glass">
+            
+            <!-- دسته‌بندی‌های ۸ گانه -->
+            <div class="form-group">
+                <label class="form-label">دسته‌بندی آگهی</label>
+                <div class="category-grid">
+                    <div class="category-option" data-category="خانه" onclick="selectCategory(this)">
+                        <i class="fas fa-home"></i>
+                        <div>خانه و آشپزخانه</div>
+                    </div>
+                    <div class="category-option" data-category="دیجیتال" onclick="selectCategory(this)">
+                        <i class="fas fa-laptop"></i>
+                        <div>کالای دیجیتال</div>
+                    </div>
+                    <div class="category-option" data-category="نقلیه" onclick="selectCategory(this)">
+                        <i class="fas fa-car"></i>
+                        <div>وسایل نقلیه</div>
+                    </div>
+                    <div class="category-option" data-category="املاک" onclick="selectCategory(this)">
+                        <i class="fas fa-building"></i>
+                        <div>املاک</div>
+                    </div>
+                    <div class="category-option" data-category="صنعتی" onclick="selectCategory(this)">
+                        <i class="fas fa-industry"></i>
+                        <div>تجهیزات و صنعتی</div>
+                    </div>
+                    <div class="category-option" data-category="سرگرمی" onclick="selectCategory(this)">
+                        <i class="fas fa-gamepad"></i>
+                        <div>سرگرمی و فراغت</div>
+                    </div>
+                    <div class="category-option" data-category="شخصی" onclick="selectCategory(this)">
+                        <i class="fas fa-user"></i>
+                        <div>وسایل شخصی</div>
+                    </div>
+                    <div class="category-option" data-category="خدمات" onclick="selectCategory(this)">
+                        <i class="fas fa-concierge-bell"></i>
+                        <div>خدمات</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">عنوان آگهی</label>
+                <input type="text" class="form-input" id="title" placeholder="مثال: دوربین کانن ۵D Mark IV">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">قیمت اجاره روزانه (تومان)</label>
+                <input type="text" class="form-input" id="price" placeholder="مثال: ۳۵۰۰۰۰">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">توضیحات آگهی</label>
+                <textarea class="form-textarea" id="description" placeholder="شرایط اجاره، مدت زمان، و توضیحات..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">مکان تحویل</label>
+                <input type="text" class="form-input" id="location" placeholder="تهران، سعادت‌آباد">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">مشخصات و سوالات اجاره</label>
+                <div id="specs-container"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">عکس‌ها (حداکثر ۴ عکس)</label>
+                <div class="photo-upload" onclick="document.getElementById('photo-input').click()">
+                    <i class="fas fa-camera"></i>
+                    <div>کلیک کنید و عکس انتخاب کنید</div>
+                </div>
+                <input type="file" id="photo-input" multiple accept="image/*" style="display:none;" onchange="previewPhotos(this)">
+                <div class="photo-preview" id="photo-preview"></div>
+            </div>
+
+            <button class="btn-submit" onclick="submitAd()">ثبت آگهی اجاره</button>
+            <div class="success-message" id="success-message">آگهی شما با موفقیت ثبت شد و در لیست آگهی‌ها قرار گرفت!</div>
+        </div>
+    </div>
+
+    <!-- نوار پایین -->
+    <div class="bottom-nav glass">
+        <div class="nav-item active" onclick="showPage('home-page')"><i class="fas fa-home"></i><div>آگهی‌ها</div></div>
+        <div class="nav-item" onclick="showPage('post-page')"><i class="fas fa-plus-circle"></i><div>ثبت آگهی</div></div>
         <div class="nav-item"><i class="fas fa-bookmark"></i><div>نشان‌ها</div></div>
         <div class="nav-item"><i class="fas fa-user"></i><div>من</div></div>
     </div>
 
     <script>
-        const ads = [ /* همان کد قبلی */ 
+        let ads = JSON.parse(localStorage.getItem('ads')) || [
             {
-                title: "واحد ۱۶۰ متری ۳ خواب کلید نخورده در شهرآرا",
+                id: 1,
+                title: "واحد ۱۶۰ متری ۳ خواب کلید نخورده",
                 price: "۵۵۰٬۰۰۰٬۰۰۰٬۰۰۰ تومان",
-                images: ["https://picsum.photos/id/133/800/600", "https://picsum.photos/id/201/800/600", "https://picsum.photos/id/251/800/600", "https://picsum.photos/id/1015/800/600"],
+                images: ["https://picsum.photos/id/133/800/600"],
                 location: "شهرآرا • ۲ روز پیش",
-                specs: [{label: "متراژ", value: "۱۶۰ متر"}, {label: "اتاق", value: "۳ خواب"}, {label: "طبقه", value: "۴ از ۸"}, {label: "سال ساخت", value: "۱۴۰۲"}, {label: "وضعیت", value: "کلید نخورده"}],
-                desc: "آپارتمان نو و فول امکانات در بهترین نقطه شهرآرا. نورگیر عالی، بالکن بزرگ، آشپزخانه اپن."
-            },
-            {
-                title: "آپارتمان ۹۰ متری در جنت‌آباد مرکزی",
-                price: "۲٬۸۰۰٬۰۰۰٬۰۰۰ تومان",
-                images: ["https://picsum.photos/id/1015/800/600", "https://picsum.photos/id/133/800/600", "https://picsum.photos/id/870/800/600"],
-                location: "جنت‌آباد • امروز",
-                specs: [{label: "متراژ", value: "۹۰ متر"}, {label: "اتاق", value: "۲ خواب"}],
-                desc: "آپارتمان تمیز و خوش نقشه با پارکینگ و انباری."
-            },
-            {
-                title: "جویمکس ناردونی ۱۴۰۴",
-                price: "۱٬۰۰۰٬۰۰۰٬۰۰۰ تومان",
-                images: ["https://picsum.photos/id/870/800/600", "https://picsum.photos/id/251/800/600"],
-                location: "تهرانسر • ۵ ساعت پیش",
-                specs: [{label: "مدل", value: "۱۴۰۴"}, {label: "وضعیت", value: "نو"}],
-                desc: "موتور کاملاً نو با گارانتی."
+                category: "املاک",
+                specs: [],
+                desc: "آپارتمان نو و فول امکانات"
             }
         ];
 
-        let currentSlide = 0;
+        let selectedCategory = '';
+        let selectedPhotos = [];
 
-        function showDetail(index) {
-            const ad = ads[index];
-            currentSlide = 0;
-
-            let slidesHTML = ad.images.map(src => `<div class="slide" style="background-image: url('${src}')"></div>`).join('');
-
-            let html = `
-                <div class="slider-container">
-                    <div id="slider" class="slider">${slidesHTML}</div>
-                    <button class="slider-btn prev" onclick="prevSlide()">‹</button>
-                    <button class="slider-btn next" onclick="nextSlide()">›</button>
-                    <div class="image-counter" id="counter">۱ / ${ad.images.length}</div>
-                </div>
-                <div class="detail-content">
-                    <div class="ad-title-detail">${ad.title}</div>
-                    <div class="ad-price-detail">${ad.price}</div>
-                    <div style="color:rgba(255,255,255,0.85); margin:8px 0 20px;">${ad.location}</div>
-                    <div class="section glass">
-                        <div class="section-title">مشخصات</div>
-                        ${ad.specs.map(spec => `<div class="spec-row"><span>${spec.label}</span><span>${spec.value}</span></div>`).join('')}
-                    </div>
-                    <div class="section glass">
-                        <div class="section-title">توضیحات</div>
-                        <p style="line-height:1.8; font-size:16px;">${ad.desc}</p>
-                    </div>
-                </div>
-                <div class="action-buttons glass">
-                    <div class="btn" onclick="alert('تماس با آگهی‌دهنده: ۰۹۱۲XXX XXXX')">
-                        <i class="fas fa-phone"></i> تماس با آگهی‌دهنده
-                    </div>
-                </div>
-            `;
-
-            document.getElementById('detail-content').innerHTML = html;
-            document.getElementById('home-page').classList.remove('active');
-            document.getElementById('detail-page').classList.add('active');
-        }
-
-        function prevSlide() {
-            currentSlide = (currentSlide - 1 + ads[0].images.length) % ads[0].images.length;
-            updateSlider();
-        }
-
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % ads[0].images.length;
-            updateSlider();
-        }
-
-        function updateSlider() {
-            const slider = document.getElementById('slider');
-            if (slider) {
-                slider.style.transform = `translateX(-${currentSlide * 100}%)`;
-                document.getElementById('counter').textContent = `${currentSlide + 1} / ${ads[0].images.length}`;
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            
+            if (pageId === 'home-page') {
+                renderAds();
             }
         }
 
+        function renderAds() {
+            const container = document.getElementById('ads-list');
+            container.innerHTML = '';
+            
+            ads.forEach((ad, index) => {
+                const div = document.createElement('div');
+                div.className = 'ad-item glass';
+                div.innerHTML = `
+                    <div class="ad-image" style="background-image: url('${ad.images[0]}')"></div>
+                    <div class="ad-content">
+                        <div class="ad-title">${ad.title}</div>
+                        <div class="ad-price">${ad.price}</div>
+                        <div style="font-size:13px; opacity:0.8;">${ad.location}</div>
+                    </div>
+                `;
+                div.onclick = () => showDetail(index);
+                container.appendChild(div);
+            });
+        }
+
+        function selectCategory(element) {
+            document.querySelectorAll('.category-option').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            selectedCategory = element.dataset.category;
+            showRentalSpecs(selectedCategory);
+        }
+
+        function showRentalSpecs(category) {
+            const container = document.getElementById('specs-container');
+            container.innerHTML = '';
+
+            let html = '';
+
+            switch(category) {
+                case 'خانه':
+                    html = `<div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;"><div><label style="color:white; font-size:13px;">نوع وسیله</label><input type="text" class="form-input" placeholder="مثال: مبل، یخچال، ماشین لباسشویی"></div><div><label style="color:white; font-size:13px;">برند و مدل</label><input type="text" class="form-input" placeholder="مثال: اسنوا، ال‌جی"></div><div><label style="color:white; font-size:13px;">وضعیت</label><input type="text" class="form-input" placeholder="مثال: نو / کارکرده"></div><div><label style="color:white; font-size:13px;">حداقل مدت اجاره (روز)</label><input type="text" class="form-input" placeholder="مثال: ۷ روز"></div></div>`;
+                    break;
+                case 'دیجیتال':
+                    html = `<div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;"><div><label style="color:white; font-size:13px;">نوع دستگاه</label><input type="text" class="form-input" placeholder="مثال: گوشی، لپ‌تاپ، تبلت"></div><div><label style="color:white; font-size:13px;">مدل و حافظه</label><input type="text" class="form-input" placeholder="مثال: S23 Ultra، ۲۵۶ گیگ"></div><div><label style="color:white; font-size:13px;">وضعیت باتری و بدنه</label><input type="text" class="form-input" placeholder="مثال: باتری ۸۵٪"></div><div><label style="color:white; font-size:13px;">حداقل مدت اجاره (روز)</label><input type="text" class="form-input" placeholder="مثال: ۵ روز"></div></div>`;
+                    break;
+                case 'نقلیه':
+                    html = `<div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;"><div><label style="color:white; font-size:13px;">نوع وسیله نقلیه</label><input type="text" class="form-input" placeholder="مثال: ماشین، موتور، دوچرخه"></div><div><label style="color:white; font-size:13px;">مدل و سال ساخت</label><input type="text" class="form-input" placeholder="مثال: پژو ۲۰۶، ۱۴۰۱"></div><div><label style="color:white; font-size:13px;">کارکرد و وضعیت</label><input type="text" class="form-input" placeholder="مثال: ۸۵ هزار کیلومتر"></div><div><label style="color:white; font-size:13px;">حداقل مدت اجاره (روز)</label><input type="text" class="form-input" placeholder="مثال: ۳ روز"></div></div>`;
+                    break;
+                case 'املاک':
+                    html = `<div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;"><div><label style="color:white; font-size:13px;">نوع ملک</label><input type="text" class="form-input" placeholder="مثال: آپارتمان، ویلا"></div><div><label style="color:white; font-size:13px;">متراژ و تعداد اتاق</label><input type="text" class="form-input" placeholder="مثال: ۱۲۰ متر، ۳ خواب"></div><div><label style="color:white; font-size:13px;">امکانات</label><input type="text" class="form-input" placeholder="مثال: پارکینگ، آسانسور"></div><div><label style="color:white; font-size:13px;">حداقل مدت اجاره (ماه)</label><input type="text" class="form-input" placeholder="مثال: ۶ ماه"></div></div>`;
+                    break;
+                case 'صنعتی':
+                    html = `<div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;"><div><label style="color:white; font-size:13px;">نوع تجهیزات</label><input type="text" class="form-input" placeholder="مثال: دریل صنعتی، جوشکاری"></div><div><label style="color:white; font-size:13px;">برند و قدرت</label><input type="text" class="form-input" placeholder="مثال: بوش، ۲۰۰۰ وات"></div><div><label style="color:white; font-size:13px;">وضعیت و سال ساخت</label><input type="text" class="form-input" placeholder="مثال: نو، کارکرده ۱۴۰۰"></div><div><label style="color:white; font-size:13px;">حداقل مدت اجاره (روز)</label><input type="text" class="form-input" placeholder="مثال: ۷ روز"></div></div>`;
+                    break;
+                case 'سرگرمی':
+                    html = `<div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;"><div><label style="color:white; font-size:13px;">نوع وسیله سرگرمی</label><input type="text" class="form-input" placeholder="مثال: کنسول بازی، چادر کمپینگ"></div><div><label style="color:white; font-size:13px;">برند و مدل</label><input type="text" class="form-input" placeholder="مثال: پلی‌استیشن ۵"></div><div><label style="color:white; font-size:13px;">وضعیت</label><input type="text" class="form-input" placeholder="مثال: نو، کارکرده"></div><div><label style="color:white; font-size:13px;">حداقل مدت اجاره (روز)</label><input type="text" class="form-input" placeholder="مثال: ۴ روز"></div></div>`;
+                    break;
+                case 'شخصی':
+                    html = `<div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;"><div><label style="color:white; font-size:13px;">نوع وسیله شخصی</label><input type="text" class="form-input" placeholder="مثال: ساعت، کیف، لباس"></div><div><label style="color:white; font-size:13px;">برند و مدل</label><input type="text" class="form-input" placeholder="مثال: اپل واچ، لویی ویتون"></div><div><label style="color:white; font-size:13px;">وضعیت</label><input type="text" class="form-input" placeholder="مثال: نو، کارکرده"></div><div><label style="color:white; font-size:13px;">حداقل مدت اجاره (روز)</label><input type="text" class="form-input" placeholder="مثال: ۱۰ روز"></div></div>`;
+                    break;
+                case 'خدمات':
+                    html = `<div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;"><div><label style="color:white; font-size:13px;">نوع خدمت</label><input type="text" class="form-input" placeholder="مثال: نظافت، آموزش، تعمیرات"></div><div><label style="color:white; font-size:13px;">تجربه و تخصص</label><input type="text" class="form-input" placeholder="مثال: ۵ سال تجربه"></div><div><label style="color:white; font-size:13px;">محدوده خدمات</label><input type="text" class="form-input" placeholder="مثال: تهران، کرج"></div><div><label style="color:white; font-size:13px;">حداقل مدت قرارداد</label><input type="text" class="form-input" placeholder="مثال: ۱ ماه"></div></div>`;
+                    break;
+            }
+
+            container.innerHTML = html;
+        }
+
+        function previewPhotos(input) {
+            const preview = document.getElementById('photo-preview');
+            preview.innerHTML = '';
+            selectedPhotos = [];
+            Array.from(input.files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    preview.appendChild(img);
+                    selectedPhotos.push(e.target.result);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function submitAd() {
+            const title = document.getElementById('title').value;
+            const price = document.getElementById('price').value;
+            const description = document.getElementById('description').value;
+            const location = document.getElementById('location').value;
+
+            if (!title || !price || !selectedCategory) {
+                alert('لطفاً عنوان، قیمت و دسته‌بندی را پر کنید!');
+                return;
+            }
+
+            const newAd = {
+                id: Date.now(),
+                title: title,
+                price: price + " تومان (روزانه)",
+                images: selectedPhotos.length > 0 ? selectedPhotos : ["https://picsum.photos/id/133/800/600"],
+                location: location + " • همین الان",
+                category: selectedCategory,
+                specs: [],
+                desc: description || "آگهی اجاره در دسته " + selectedCategory
+            };
+
+            ads.unshift(newAd);
+            localStorage.setItem('ads', JSON.stringify(ads));
+
+            document.getElementById('success-message').style.display = 'block';
+
+            setTimeout(() => {
+                document.getElementById('success-message').style.display = 'none';
+                showPage('home-page');
+                renderAds();
+                
+                document.querySelectorAll('.form-input, .form-textarea').forEach(el => el.value = '');
+                document.getElementById('photo-preview').innerHTML = '';
+                document.querySelectorAll('.category-option').forEach(el => el.classList.remove('active'));
+                document.getElementById('specs-container').innerHTML = '';
+                selectedCategory = '';
+                selectedPhotos = [];
+            }, 1800);
+        }
+
+        function showDetail(index) {
+            const ad = ads[index];
+            let html = `
+                <div style="margin:12px; border-radius:24px; overflow:hidden; box-shadow:0 10px 25px rgba(0,0,0,0.3);">
+                    <img src="${ad.images[0]}" style="width:100%; height:340px; object-fit:cover;">
+                </div>
+                <div style="padding:0 16px 100px;">
+                    <div style="font-size:22px; font-weight:800; color:white; margin:16px 0 8px;">${ad.title}</div>
+                    <div style="font-size:26px; font-weight:900; color:#a0ffcc;">${ad.price}</div>
+                    <div style="color:rgba(255,255,255,0.85); margin:8px 0 20px;">${ad.location}</div>
+                    
+                    <div class="glass" style="padding:18px; margin-bottom:20px; color:white;">
+                        <div style="font-size:18px; font-weight:700; margin-bottom:14px; border-bottom:2px solid rgba(255,255,255,0.3); padding-bottom:10px;">توضیحات</div>
+                        <p style="line-height:1.8;">${ad.desc}</p>
+                    </div>
+                </div>
+                
+                <div style="position:fixed; bottom:75px; left:16px; right:16px; z-index:999;">
+                    <div onclick="alert('تماس با مالک: ۰۹۱۲XXX XXXX')" style="background:#00b140; color:white; padding:16px; border-radius:16px; text-align:center; font-weight:700;">
+                        <i class="fas fa-phone"></i> تماس با مالک
+                    </div>
+                </div>
+            `;
+            document.getElementById('detail-content').innerHTML = html;
+            showPage('detail-page');
+        }
+
         function hideDetail() {
-            document.getElementById('detail-page').classList.remove('active');
-            document.getElementById('home-page').classList.add('active');
+            showPage('home-page');
+        }
+
+        window.onload = function() {
+            renderAds();
+            showPage('home-page');
         }
     </script>
 </body>
