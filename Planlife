@@ -31,8 +31,7 @@
         .page { display: none; }
         .page.active { display: block; }
 
-        /* Header */
-        .header, .detail-header {
+        .header {
             background: rgba(255, 255, 255, 0.18);
             backdrop-filter: blur(16px);
             padding: 14px 16px;
@@ -69,7 +68,6 @@
         .location { padding: 12px 16px; display: flex; align-items: center; gap: 8px; font-size: 15px; }
         .search-bar { flex: 1; padding: 14px 18px; font-size: 16px; }
 
-        /* دسته‌بندی‌ها */
         .categories {
             padding: 16px 16px 8px;
             overflow-x: auto;
@@ -98,7 +96,6 @@
             margin-bottom: 8px;
         }
 
-        /* لیست آگهی‌ها */
         .ads-list {
             padding: 0 16px 80px;
         }
@@ -143,24 +140,26 @@
             color: #a0ffcc;
         }
 
-        /* صفحه جزئیات */
         .detail-header {
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(16px);
+            padding: 12px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
-        /* اسلایدر اصلی */
         .slider-container {
             position: relative;
-            margin: 12px 12px 0;
+            margin: 12px;
         }
 
         .slider {
             display: flex;
             transition: transform 0.5s ease;
-            border-radius: 24px;
-            overflow: hidden;
         }
 
         .slide {
@@ -168,6 +167,7 @@
             height: 340px;
             background-size: cover;
             background-position: center;
+            border-radius: 24px;
         }
 
         .slider-btn {
@@ -182,33 +182,20 @@
             border-radius: 50%;
             cursor: pointer;
             z-index: 10;
-            font-size: 20px;
         }
 
         .prev { left: 20px; }
         .next { right: 20px; }
 
-        .image-counter {
-            position: absolute;
-            bottom: 16px;
-            left: 16px;
-            background: rgba(0,0,0,0.65);
-            color: white;
-            padding: 5px 14px;
-            border-radius: 20px;
-            font-size: 14px;
-            z-index: 10;
-        }
-
         .detail-content {
-            padding: 0 16px 120px;
+            padding: 0 16px 100px;
         }
 
         .ad-title-detail {
             font-size: 22px;
             font-weight: 800;
             color: white;
-            margin: 20px 0 8px;
+            margin: 16px 0 8px;
         }
 
         .ad-price-detail {
@@ -241,13 +228,15 @@
             border-bottom: 1px solid rgba(255,255,255,0.15);
         }
 
-        /* دکمه تماس */
-        .contact-button {
+        .action-buttons {
             position: fixed;
-            bottom: 75px;
-            left: 16px;
-            right: 16px;
-            z-index: 999;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
         }
 
         .btn {
@@ -259,10 +248,8 @@
             font-size: 17px;
             background: #00b140;
             color: white;
-            box-shadow: 0 6px 20px rgba(0, 177, 64, 0.4);
         }
 
-        /* نوار پایین */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -282,6 +269,7 @@
 
     <!-- صفحه اصلی -->
     <div id="home-page" class="page active">
+
         <div class="header glass">
             <div class="logo">اجاره بازار</div>
             <div class="search-area">
@@ -332,43 +320,37 @@
         </div>
     </div>
 
-    <!-- صفحه جزئیات آگهی -->
+    <!-- صفحه جزئیات -->
     <div id="detail-page" class="page">
         <div class="detail-header glass">
             <div onclick="hideDetail()" style="font-size:28px; color:white; cursor:pointer;">←</div>
             <div class="logo" style="font-size:24px; margin:0;">اجاره بازار</div>
         </div>
-
         <div id="detail-content"></div>
     </div>
 
-    <!-- نوار پایین -->
+    <!-- نوار پایین - دکمه ثبت آگهی لینک شده -->
     <div class="bottom-nav glass">
         <div class="nav-item active"><i class="fas fa-home"></i><div>آگهی‌ها</div></div>
-        <div class="nav-item"><i class="fas fa-plus-circle"></i><div>ثبت آگهی</div></div>
+        
+        <!-- این دکمه به صفحه ثبت آگهی لینک شده -->
+        <div class="nav-item" onclick="window.open('https://htmlpreview.github.io/?https://raw.githubusercontent.com/soheil001/PlanLife/main/sabt_agahi', '_blank')">
+            <i class="fas fa-plus-circle"></i>
+            <div>ثبت آگهی</div>
+        </div>
+        
         <div class="nav-item"><i class="fas fa-bookmark"></i><div>نشان‌ها</div></div>
         <div class="nav-item"><i class="fas fa-user"></i><div>من</div></div>
     </div>
 
     <script>
-        const ads = [ /* ... همان داده‌های قبلی */ 
+        const ads = [ /* همان کد قبلی */ 
             {
                 title: "واحد ۱۶۰ متری ۳ خواب کلید نخورده در شهرآرا",
                 price: "۵۵۰٬۰۰۰٬۰۰۰٬۰۰۰ تومان",
-                images: [
-                    "https://picsum.photos/id/133/800/600",
-                    "https://picsum.photos/id/201/800/600",
-                    "https://picsum.photos/id/251/800/600",
-                    "https://picsum.photos/id/1015/800/600"
-                ],
+                images: ["https://picsum.photos/id/133/800/600", "https://picsum.photos/id/201/800/600", "https://picsum.photos/id/251/800/600", "https://picsum.photos/id/1015/800/600"],
                 location: "شهرآرا • ۲ روز پیش",
-                specs: [
-                    {label: "متراژ", value: "۱۶۰ متر"},
-                    {label: "اتاق", value: "۳ خواب"},
-                    {label: "طبقه", value: "۴ از ۸"},
-                    {label: "سال ساخت", value: "۱۴۰۲"},
-                    {label: "وضعیت", value: "کلید نخورده"}
-                ],
+                specs: [{label: "متراژ", value: "۱۶۰ متر"}, {label: "اتاق", value: "۳ خواب"}, {label: "طبقه", value: "۴ از ۸"}, {label: "سال ساخت", value: "۱۴۰۲"}, {label: "وضعیت", value: "کلید نخورده"}],
                 desc: "آپارتمان نو و فول امکانات در بهترین نقطه شهرآرا. نورگیر عالی، بالکن بزرگ، آشپزخانه اپن."
             },
             {
@@ -395,38 +377,31 @@
             const ad = ads[index];
             currentSlide = 0;
 
-            let slidesHTML = ad.images.map(src => `
-                <div class="slide" style="background-image: url('${src}')"></div>
-            `).join('');
+            let slidesHTML = ad.images.map(src => `<div class="slide" style="background-image: url('${src}')"></div>`).join('');
 
             let html = `
                 <div class="slider-container">
-                    <div id="slider" class="slider">
-                        ${slidesHTML}
-                    </div>
+                    <div id="slider" class="slider">${slidesHTML}</div>
                     <button class="slider-btn prev" onclick="prevSlide()">‹</button>
                     <button class="slider-btn next" onclick="nextSlide()">›</button>
                     <div class="image-counter" id="counter">۱ / ${ad.images.length}</div>
                 </div>
-
                 <div class="detail-content">
                     <div class="ad-title-detail">${ad.title}</div>
                     <div class="ad-price-detail">${ad.price}</div>
                     <div style="color:rgba(255,255,255,0.85); margin:8px 0 20px;">${ad.location}</div>
-
                     <div class="section glass">
                         <div class="section-title">مشخصات</div>
-                        ${ad.specs.map(spec => `
-                            <div class="spec-row">
-                                <span>${spec.label}</span>
-                                <span>${spec.value}</span>
-                            </div>
-                        `).join('')}
+                        ${ad.specs.map(spec => `<div class="spec-row"><span>${spec.label}</span><span>${spec.value}</span></div>`).join('')}
                     </div>
-
                     <div class="section glass">
                         <div class="section-title">توضیحات</div>
                         <p style="line-height:1.8; font-size:16px;">${ad.desc}</p>
+                    </div>
+                </div>
+                <div class="action-buttons glass">
+                    <div class="btn" onclick="alert('تماس با آگهی‌دهنده: ۰۹۱۲XXX XXXX')">
+                        <i class="fas fa-phone"></i> تماس با آگهی‌دهنده
                     </div>
                 </div>
             `;
@@ -437,14 +412,12 @@
         }
 
         function prevSlide() {
-            const ad = ads[0]; // برای سادگی
-            currentSlide = (currentSlide - 1 + ad.images.length) % ad.images.length;
+            currentSlide = (currentSlide - 1 + ads[0].images.length) % ads[0].images.length;
             updateSlider();
         }
 
         function nextSlide() {
-            const ad = ads[0];
-            currentSlide = (currentSlide + 1) % ad.images.length;
+            currentSlide = (currentSlide + 1) % ads[0].images.length;
             updateSlider();
         }
 
