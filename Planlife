@@ -2,85 +2,464 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>شکرگزاری</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اجاره بازار</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
     <style>
-        body { margin: 0; padding: 0; background: #0f172a; color: white; font-family: sans-serif; direction: rtl; }
-        .app { padding: 15px; max-width: 500px; margin: auto; }
-        header { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 15px; margin-bottom: 20px; }
-        .card { background: #1e293b; border-radius: 20px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); }
-        h1 { font-size: 1.2rem; color: #38bdf8; text-align: center; margin-top: 0; }
-        .date-box { background: #0f172a; padding: 10px; border-radius: 12px; text-align: center; margin-bottom: 20px; border: 1px solid #334155; }
-        input[type="date"] { background: transparent; border: none; color: white; font-size: 1rem; outline: none; width: 100%; }
-        .q-item { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: #94a3b8; }
-        textarea { width: 100%; background: #0f172a; border: 1px solid #334155; border-radius: 10px; padding: 12px; color: white; height: 70px; resize: none; box-sizing: border-box; }
-        .btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        button { padding: 12px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; }
-        .save { background: #0ea5e9; color: white; }
-        .reset { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Vazirmatn', 'Tahoma', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: #222;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        .page { display: none; }
+        .page.active { display: block; }
+
+        /* Header */
+        .header, .detail-header {
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(16px);
+            padding: 14px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 900;
+            color: white;
+            text-align: center;
+            text-shadow: 0 3px 15px rgba(0,0,0,0.3);
+            background: linear-gradient(90deg, #ffffff, #a0ffcc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .search-area {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .location, .search-bar {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 16px;
+            color: white;
+        }
+
+        .location { padding: 12px 16px; display: flex; align-items: center; gap: 8px; font-size: 15px; }
+        .search-bar { flex: 1; padding: 14px 18px; font-size: 16px; }
+
+        /* دسته‌بندی‌ها */
+        .categories {
+            padding: 16px 16px 8px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .category-item {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-left: 14px;
+            color: white;
+            width: 70px;
+        }
+
+        .category-icon {
+            width: 58px;
+            height: 58px;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        /* لیست آگهی‌ها */
+        .ads-list {
+            padding: 0 16px 80px;
+        }
+
+        .ad-item {
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 22px;
+            margin-bottom: 18px;
+            overflow: hidden;
+            display: flex;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .ad-item:hover { transform: translateY(-6px); }
+
+        .ad-image {
+            width: 145px;
+            height: 145px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .ad-content {
+            flex: 1;
+            padding: 16px;
+            color: white;
+        }
+
+        .ad-title {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .ad-price {
+            font-size: 18px;
+            font-weight: 800;
+            color: #a0ffcc;
+        }
+
+        /* صفحه جزئیات */
+        .detail-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* اسلایدر اصلی */
+        .slider-container {
+            position: relative;
+            margin: 12px 12px 0;
+        }
+
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease;
+            border-radius: 24px;
+            overflow: hidden;
+        }
+
+        .slide {
+            min-width: 100%;
+            height: 340px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 20px;
+        }
+
+        .prev { left: 20px; }
+        .next { right: 20px; }
+
+        .image-counter {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            background: rgba(0,0,0,0.65);
+            color: white;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+            z-index: 10;
+        }
+
+        .detail-content {
+            padding: 0 16px 120px;
+        }
+
+        .ad-title-detail {
+            font-size: 22px;
+            font-weight: 800;
+            color: white;
+            margin: 20px 0 8px;
+        }
+
+        .ad-price-detail {
+            font-size: 26px;
+            font-weight: 900;
+            color: #a0ffcc;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(16px);
+            border-radius: 18px;
+            padding: 18px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding-bottom: 10px;
+        }
+
+        .spec-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+        }
+
+        /* دکمه تماس */
+        .contact-button {
+            position: fixed;
+            bottom: 75px;
+            left: 16px;
+            right: 16px;
+            z-index: 999;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: 16px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 17px;
+            background: #00b140;
+            color: white;
+            box-shadow: 0 6px 20px rgba(0, 177, 64, 0.4);
+        }
+
+        /* نوار پایین */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.25);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0 6px;
+            z-index: 1000;
+        }
     </style>
 </head>
 <body>
-    <div class="app">
-        <header>
-            <span>✨ دفترچه من</span>
-            <button onclick="toggleArchive()" style="background:#38bdf8; color:#0f172a; padding:5px 10px; border-radius:8px">آرشیو</button>
-        </header>
-        <div class="card">
-            <h1>شکرگزاری و ارزیابی</h1>
-            <div class="date-box"><input type="date" id="dInp" onchange="load()"></div>
-            <div class="q-item"><label>۱. به‌خاطر چه چیزی سپاسگزارم؟</label><textarea id="q1"></textarea></div>
-            <div class="q-item"><label>۲. به‌خاطر چه کسی سپاسگزارم؟</label><textarea id="q2"></textarea></div>
-            <div class="q-item"><label>۳. هدف اصلی امسال و قدم امروز؟</label><textarea id="q3"></textarea></div>
-            <div class="q-item"><label>۴. اتفاقات دلخواه امروز؟</label><textarea id="q4"></textarea></div>
-            <div class="q-item"><label>۵. ۳ کار مهم امروز؟</label><textarea id="q5"></textarea></div>
-            <div class="q-item"><label>۶. درخواست از خدا؟</label><textarea id="q6"></textarea></div>
-            <div class="btns">
-                <button class="save" onclick="save()">ذخیره</button>
-                <button class="reset" onclick="res()">ریست</button>
+
+    <!-- صفحه اصلی -->
+    <div id="home-page" class="page active">
+        <div class="header glass">
+            <div class="logo">اجاره بازار</div>
+            <div class="search-area">
+                <div class="location glass">
+                    <i class="fas fa-map-marker-alt"></i>
+                    تهران
+                </div>
+                <input type="text" class="search-bar" placeholder="جستجو در همه آگهی‌ها...">
+            </div>
+        </div>
+
+        <div class="categories">
+            <div class="category-item"><div class="category-icon">🏠</div><div>املاک</div></div>
+            <div class="category-item"><div class="category-icon">🚗</div><div>خودرو</div></div>
+            <div class="category-item"><div class="category-icon">📱</div><div>موبایل</div></div>
+            <div class="category-item"><div class="category-icon">🛋️</div><div>خانه</div></div>
+            <div class="category-item"><div class="category-icon">👕</div><div>پوشاک</div></div>
+            <div class="category-item"><div class="category-icon">💼</div><div>استخدام</div></div>
+        </div>
+
+        <div class="ads-list">
+            <div class="ad-item glass" onclick="showDetail(0)">
+                <div class="ad-image" style="background-image: url('https://picsum.photos/id/133/600/600')"></div>
+                <div class="ad-content">
+                    <div class="ad-title">واحد ۱۶۰ متری ۳ خواب کلید نخورده</div>
+                    <div class="ad-price">۵۵۰٬۰۰۰٬۰۰۰٬۰۰۰ تومان</div>
+                    <div style="font-size:13px; opacity:0.8;">شهرآرا • ۲ روز پیش</div>
+                </div>
+            </div>
+
+            <div class="ad-item glass" onclick="showDetail(1)">
+                <div class="ad-image" style="background-image: url('https://picsum.photos/id/1015/600/600')"></div>
+                <div class="ad-content">
+                    <div class="ad-title">آپارتمان ۹۰ متری در جنت‌آباد</div>
+                    <div class="ad-price">۲٬۸۰۰٬۰۰۰٬۰۰۰ تومان</div>
+                    <div style="font-size:13px; opacity:0.8;">جنت‌آباد • امروز</div>
+                </div>
+            </div>
+
+            <div class="ad-item glass" onclick="showDetail(2)">
+                <div class="ad-image" style="background-image: url('https://picsum.photos/id/870/600/600')"></div>
+                <div class="ad-content">
+                    <div class="ad-title">جویمکس ناردونی ۱۴۰۴</div>
+                    <div class="ad-price">۱٬۰۰۰٬۰۰۰٬۰۰۰ تومان</div>
+                    <div style="font-size:13px; opacity:0.8;">تهرانسر • ۵ ساعت پیش</div>
+                </div>
             </div>
         </div>
     </div>
-    <div id="modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); padding:20px; z-index:100;">
-        <div style="background:#1e293b; padding:20px; border-radius:20px; max-height:80vh; overflow-y:auto;">
-            <h3 style="text-align:center">تاریخچه</h3>
-            <div id="list"></div>
-            <button onclick="toggleArchive()" class="reset" style="width:100%; margin-top:20px">بستن</button>
+
+    <!-- صفحه جزئیات آگهی -->
+    <div id="detail-page" class="page">
+        <div class="detail-header glass">
+            <div onclick="hideDetail()" style="font-size:28px; color:white; cursor:pointer;">←</div>
+            <div class="logo" style="font-size:24px; margin:0;">اجاره بازار</div>
         </div>
+
+        <div id="detail-content"></div>
     </div>
+
+    <!-- نوار پایین -->
+    <div class="bottom-nav glass">
+        <div class="nav-item active"><i class="fas fa-home"></i><div>آگهی‌ها</div></div>
+        <div class="nav-item"><i class="fas fa-plus-circle"></i><div>ثبت آگهی</div></div>
+        <div class="nav-item"><i class="fas fa-bookmark"></i><div>نشان‌ها</div></div>
+        <div class="nav-item"><i class="fas fa-user"></i><div>من</div></div>
+    </div>
+
     <script>
-        const d = document.getElementById('dInp');
-        d.valueAsDate = new Date();
-        function save() {
-            let data = {};
-            for(let i=1; i<=6; i++) data['q'+i] = document.getElementById('q'+i).value;
-            localStorage.setItem('g_'+d.value, JSON.stringify(data));
-            alert("ذخیره شد!");
+        const ads = [ /* ... همان داده‌های قبلی */ 
+            {
+                title: "واحد ۱۶۰ متری ۳ خواب کلید نخورده در شهرآرا",
+                price: "۵۵۰٬۰۰۰٬۰۰۰٬۰۰۰ تومان",
+                images: [
+                    "https://picsum.photos/id/133/800/600",
+                    "https://picsum.photos/id/201/800/600",
+                    "https://picsum.photos/id/251/800/600",
+                    "https://picsum.photos/id/1015/800/600"
+                ],
+                location: "شهرآرا • ۲ روز پیش",
+                specs: [
+                    {label: "متراژ", value: "۱۶۰ متر"},
+                    {label: "اتاق", value: "۳ خواب"},
+                    {label: "طبقه", value: "۴ از ۸"},
+                    {label: "سال ساخت", value: "۱۴۰۲"},
+                    {label: "وضعیت", value: "کلید نخورده"}
+                ],
+                desc: "آپارتمان نو و فول امکانات در بهترین نقطه شهرآرا. نورگیر عالی، بالکن بزرگ، آشپزخانه اپن."
+            },
+            {
+                title: "آپارتمان ۹۰ متری در جنت‌آباد مرکزی",
+                price: "۲٬۸۰۰٬۰۰۰٬۰۰۰ تومان",
+                images: ["https://picsum.photos/id/1015/800/600", "https://picsum.photos/id/133/800/600", "https://picsum.photos/id/870/800/600"],
+                location: "جنت‌آباد • امروز",
+                specs: [{label: "متراژ", value: "۹۰ متر"}, {label: "اتاق", value: "۲ خواب"}],
+                desc: "آپارتمان تمیز و خوش نقشه با پارکینگ و انباری."
+            },
+            {
+                title: "جویمکس ناردونی ۱۴۰۴",
+                price: "۱٬۰۰۰٬۰۰۰٬۰۰۰ تومان",
+                images: ["https://picsum.photos/id/870/800/600", "https://picsum.photos/id/251/800/600"],
+                location: "تهرانسر • ۵ ساعت پیش",
+                specs: [{label: "مدل", value: "۱۴۰۴"}, {label: "وضعیت", value: "نو"}],
+                desc: "موتور کاملاً نو با گارانتی."
+            }
+        ];
+
+        let currentSlide = 0;
+
+        function showDetail(index) {
+            const ad = ads[index];
+            currentSlide = 0;
+
+            let slidesHTML = ad.images.map(src => `
+                <div class="slide" style="background-image: url('${src}')"></div>
+            `).join('');
+
+            let html = `
+                <div class="slider-container">
+                    <div id="slider" class="slider">
+                        ${slidesHTML}
+                    </div>
+                    <button class="slider-btn prev" onclick="prevSlide()">‹</button>
+                    <button class="slider-btn next" onclick="nextSlide()">›</button>
+                    <div class="image-counter" id="counter">۱ / ${ad.images.length}</div>
+                </div>
+
+                <div class="detail-content">
+                    <div class="ad-title-detail">${ad.title}</div>
+                    <div class="ad-price-detail">${ad.price}</div>
+                    <div style="color:rgba(255,255,255,0.85); margin:8px 0 20px;">${ad.location}</div>
+
+                    <div class="section glass">
+                        <div class="section-title">مشخصات</div>
+                        ${ad.specs.map(spec => `
+                            <div class="spec-row">
+                                <span>${spec.label}</span>
+                                <span>${spec.value}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <div class="section glass">
+                        <div class="section-title">توضیحات</div>
+                        <p style="line-height:1.8; font-size:16px;">${ad.desc}</p>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('detail-content').innerHTML = html;
+            document.getElementById('home-page').classList.remove('active');
+            document.getElementById('detail-page').classList.add('active');
         }
-        function load() {
-            let s = localStorage.getItem('g_'+d.value);
-            for(let i=1; i<=6; i++) document.getElementById('q'+i).value = s ? JSON.parse(s)['q'+i] : '';
+
+        function prevSlide() {
+            const ad = ads[0]; // برای سادگی
+            currentSlide = (currentSlide - 1 + ad.images.length) % ad.images.length;
+            updateSlider();
         }
-        function res() { if(confirm("پاک شود؟")) for(let i=1; i<=6; i++) document.getElementById('q'+i).value = ''; }
-        function toggleArchive() {
-            const m = document.getElementById('modal');
-            m.style.display = m.style.display === 'none' ? 'block' : 'none';
-            if(m.style.display === 'block') {
-                const l = document.getElementById('list'); l.innerHTML = '';
-                Object.keys(localStorage).forEach(k => {
-                    if(k.startsWith('g_')) {
-                        let date = k.replace('g_', '');
-                        l.innerHTML += `<div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #334155;">
-                            <span>🗓️ ${date}</span>
-                            <button onclick="view('${date}')" style="background:#38bdf8; border:none; border-radius:5px; padding:3px 8px">باز کردن</button>
-                        </div>`;
-                    }
-                });
+
+        function nextSlide() {
+            const ad = ads[0];
+            currentSlide = (currentSlide + 1) % ad.images.length;
+            updateSlider();
+        }
+
+        function updateSlider() {
+            const slider = document.getElementById('slider');
+            if (slider) {
+                slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+                document.getElementById('counter').textContent = `${currentSlide + 1} / ${ads[0].images.length}`;
             }
         }
-        function view(date) { d.value = date; load(); toggleArchive(); }
-        load();
+
+        function hideDetail() {
+            document.getElementById('detail-page').classList.remove('active');
+            document.getElementById('home-page').classList.add('active');
+        }
     </script>
 </body>
 </html>
